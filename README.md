@@ -9,11 +9,13 @@
  ## Dependencies 
 
  ```json
-    dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.3.1"
-  }
+    {
+    "dependencies": {
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "next": "15.3.1"
+        }
+    }
  ```
 
  ## Requirements

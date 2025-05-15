@@ -32,16 +32,20 @@ export async function POST(req: Request) {
                 Return the list in JSON format with the following format:
                 {
                     "movies": [
-                        { "title": "Movie Title", "description": "Movie Description", "release_year": 2023 },
+                        { "title": "Movie Title", "description": "Movie Description", "release_year": 2023 , "tags": ["tag1", "tag2", {...}], image: "https://moviecoverimage.com/image.*", link: "http://movielink.example.com"},
                         {...}
                     ],
                     "books": [
-                        { "title": "Book Title", "description": "Book Description", "release_year": 2023 },
+                        { "title": "Book Title", "description": "Book Description", "release_year": 2023, "tags": ["tag1", "tag2", {...}], image: "https://bookcoverimage.com/image.*", link: "https://booklink.example.com" },
                         {...}
                     ]
                 }
                 where the array of movies and books can be empty. And the count of movies and books can be different.
                 between 0 and 10 movies and between 0 and 10 books. 
+                The movies and books should be related to the tags provided and the "tags" property in the json are the more near tags based in the provided tags in [tags].
+                
+                The image attribute, will be a movie or book cover (respecfully), you can get it from the web.
+                The link attribute will be get by truthfully sources as "www.imdb.com", amazon and others.
 
                 only return movies if in the input there is after [filter] tag the word "movie" or "film"
                 only return books if in the input there is after [filter] tag the word "book" or "novel"

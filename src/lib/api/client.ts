@@ -1,16 +1,9 @@
 import { OpenAIRequest } from "@/app/api/openAI/route";
+import { Item } from "../models/Item";
 
 export interface OpenAIResponse {
-    movies: {
-        title: string;
-        description: string;
-        release_year: number;
-    }[];
-    books: {
-        title: string;
-        description: string;
-        release_year: number;
-    }[];
+    movies: Item[];
+    books: Item[];
 }
 
 

@@ -1,5 +1,6 @@
 'use client';
 
+import ItemCard from "@/components/molecules/ItemCard";
 import { getIAReponse, OpenAIResponse } from "@/lib/api/client";
 import { useState } from "react";
 
@@ -28,29 +29,31 @@ export default function Home() {
       <div className="flex flex-row gap-3">
         <h1 className="text-3xl font-bold">What</h1>
         <h1 className="text-3xl font-bold">I</h1>
-        <h1 className="text-3xl font-bold">need</h1>
+        <h1 className="text-3xl font-bold text-fuchsia-500">need</h1>
         <h1 className="text-3xl font-bold">to</h1>
         <h1 className="text-3xl font-bold">watch</h1>
         <h1 className="text-3xl font-bold">?</h1>
-        <h1 className="text-3xl font-bold">AI</h1>
+        <h1 className="text-3xl font-bold text-red-600">AI</h1>
       </div>
-      <p>
-        {response.books.length > 0 && response.books.map((item) => (
-          <div key={item.title}>
-            <p>title: {item.title}</p>
-            <p>description: {item.description}</p>
-            <p>release year: {item.release_year}</p>
-          </div>
-        ))}
+      <div className="flex flex-col items-start gap-y-6 ">
+        {
+          response.books.length > 0 ? <h1> Books</h1> : <></>
+        }
+        <div className="flex gap-3">
+          {response.books.length > 0 && response.books.map((item, _index) => (
+            <ItemCard key={_index + item.title} item={item}/>
+          ))}
+        </div>
+        {
+          response.movies.length > 0 ? <h1> Movies</h1> : <></>
+        }
+        <div className="flex gap-3">
+          {response.movies.length > 0 && response.movies.map((item, _index) => (
+            <ItemCard key={_index + item.title} item={item}/>
+          ))}
+        </div>
+      </div>
 
-        {response.movies.length > 0 && response.movies.map((item) => (
-          <div key={item.title}>
-            <p>title: {item.title}</p>
-            <p>description: {item.description}</p>
-            <p>release year: {item.release_year}</p>
-          </div>
-        ))}
-      </p>
       <button onClick={fetchData} disabled={loading}>
         {loading ? "Loading..." : "Do a fetch"}
       </button>

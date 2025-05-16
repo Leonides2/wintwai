@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
         // Llamar a la API de OpenAI
         const response = await client.responses.create({
-            model: "gpt-4o",
+            model: "gpt-4.1",
             instructions: `
                 Generate a list of movies or books based on the given tags. You only need to return the list of movies or books.
                 Return the list in JSON format with the following format:
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
                 between 0 and 10 movies and between 0 and 10 books. 
                 The movies and books should be related to the tags provided and the "tags" property in the json are the more near tags based in the provided tags in [tags].
                 
-                The image attribute, will be a movie or book cover (respecfully), you can get it from the web.
+                The image attribute, will be a movie or book cover (respecfully), you can get it from any web, just need to be the the cover.
                 The link attribute will be get by truthfully sources as "www.imdb.com", amazon and others.
 
                 only return movies if in the input there is after [filter] tag the word "movie" or "film"
@@ -53,6 +53,8 @@ export async function POST(req: Request) {
                 the tags for the movies or books are in the input after [tags] tag
             `,
             input: `[tags] ${tags.join(", ")} [filter] ${filter}`,
+            tools: [{ type: "web_search_preview" }],
+
         });
 
         // Extraer y validar la respuesta

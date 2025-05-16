@@ -25,3 +25,25 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+@keyframes deletedBubble {
+  0%{
+    scale: 1.25;
+  }
+  20%{
+    scale: 1;
+  }
+  40%{
+    scale: 0.7;
+  }
+  60%{
+    scale: 0.4;
+  }
+  80%{
+    scale: 0.2;
+  }
+  100%{
+    scale: 0;
+  }
+}

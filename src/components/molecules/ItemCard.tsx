@@ -10,8 +10,8 @@ const ItemCard = ({item}: ItemCardProps) =>{
     return (
     <>
         <div key={item.title} className="size-96 grid grid-rows-[40%_1fr_10%]">
-              <div className="h-full bg-gray-100 rounded-t-xl">
-                <img src={item.image} className="w-max h-auto"></img>
+              <div className="h-full bg-gray-100 rounded-t-xl overflow-hidden">
+                <img src={item.image} className="w-full h-auto"></img>
               </div>
               <div className="bg-gray-300 rounded-b-xl p-2">
                 <p>{item.title} ({item.release_year})</p>

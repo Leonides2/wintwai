@@ -8,7 +8,9 @@ export interface OpenAIResponse {
     books: Book[];
 }
 
- var omdbapi = process.env.OMDB_KEY;
+export interface ImageMoviesRequest{
+    title: string
+}
 
 export const getIAReponse = async (request: OpenAIRequest): Promise<OpenAIResponse> => {
     try {
@@ -40,10 +42,16 @@ export const getIAReponse = async (request: OpenAIRequest): Promise<OpenAIRespon
     }
 };
 
-export const getMoviePoster = async (title: string): Promise<string> => {
+export const getMoviePoster = async (request: ImageMoviesRequest): Promise<string> => {
 
     try {
-        let response = await fetch (`http://www.omdbapi.com/?apikey=${omdbapi}&t=${title.toLowerCase()}`)
+        const response = await fetch (`/api/imageMovies`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(request),
+        });
 
         if(!response.ok){
             throw new Error (`API error ${response.status} ${response.statusText}`)
@@ -52,7 +60,7 @@ export const getMoviePoster = async (title: string): Promise<string> => {
         const data =  await response.json();
         console.log(data)
 
-        return data.Poster;
+        return data.poster;
 
     }
     catch(error){
@@ -65,12 +73,12 @@ export const getBookCover = async(isbn: number) => {
 
     try{
 
-        let response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=data&format=json`)
+        const response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=data&format=json`)
         if(!response.ok){
             throw new Error (`API error ${response.status} ${response.statusText}`)
         }
         const data =  await response.json();
-        let parseData = data[`ISBN:${isbn}`];
+        const parseData = data[`ISBN:${isbn}`];
 
         return parseData.cover.large;
 

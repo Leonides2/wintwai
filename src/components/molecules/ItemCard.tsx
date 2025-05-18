@@ -13,7 +13,6 @@ interface ItemCardProps {
 const ItemCard = ({ item, type }: ItemCardProps) => {
 
   const [url, setUrl] = useState(item.image);
-  const [loading, setLoading] = useState(false);
   const [isCoverOn, setIsCoverOn] = useState(true)
 
 
@@ -21,23 +20,20 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
   const fetchData = async () => {
 
     try {
-      setLoading(true);
       let res: string | undefined
 
       if (type == "Movie") {
-        res = await getMoviePoster(item.title);
+        res = await getMoviePoster({title: item.title});
       }
       if (type == "Book" && "isbn" in item && "isbn") {
         res = await getBookCover(item.isbn)
       }
 
       setUrl(res ?? item.image);
-      console.log(res)
     } catch (error) {
       console.error("Error fetching data:", error);
       //alert("Failed to fetch data. Please try again.");
     } finally {
-      setLoading(false);
     }
   };
 
@@ -57,15 +53,15 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
         
         >
           <img
-          src={url}
-          alt={item.title}
-          className={`h-full w-full object-cover rounded-xl z-30 
-           hover:opacity-60 cursor-pointer transition-all
-            ${isCoverOn ? "absolute inset-0 duration-300" : 
-              "absolute top-0 left-[-150%] duration-500"}
-          `}
-          style={{ pointerEvents: "auto" }}
-        />
+            src={url}
+            alt={item.title}
+            className={`h-full w-full object-cover rounded-xl z-30 
+             hover:opacity-60 cursor-pointer transition-all
+              ${isCoverOn ? "absolute inset-0 duration-300" : 
+                "absolute top-0 left-[-150%] duration-500"}
+            `}
+            style={{ pointerEvents: "auto" }}
+          />
 
           <div className="relative z-10 flex flex-col h-full w-full">
             <div className="bg-gray-300 rounded-xl p-2 h-full w-full">

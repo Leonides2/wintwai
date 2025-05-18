@@ -4,6 +4,7 @@ export interface OpenAIRequest {
     tags: string[];
     filter: string;
 }
+const apiKey = process.env.OPENAI_API_KEY;
 
 export async function POST(req: Request) {
     try {
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
 
         // Crear cliente de OpenAI
         const client = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY,
+            apiKey: apiKey
         });
 
         // Llamar a la API de OpenAI
@@ -77,7 +78,7 @@ export async function POST(req: Request) {
             throw new Error("No output from OpenAI.");
         }
 
-        let parsedOutput = output.replace(`json`, "").replaceAll(`\`\`\``, "");
+        const parsedOutput = output.replace(`json`, "").replaceAll(`\`\`\``, "");
 
         return new Response(parsedOutput, {
             status: 200,

@@ -13,7 +13,7 @@ const DeletablePill = ({id,text, callback}: DeletablePillProps) => {
      const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     const handleDelete = () =>{
-        let pill = document.getElementById(id)
+        const pill = document.getElementById(id)
 
         if(!pill) return
 

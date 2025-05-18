@@ -4,7 +4,7 @@ interface ButtonProps{
     children: ReactNode
 }
 
-const Button = ({children}: ButtonProps) => {
+const ButtonGeneric = ({children}: ButtonProps) => {
 
     return(
     <>
@@ -24,4 +24,4 @@ const Button = ({children}: ButtonProps) => {
     </>
     )
 }
-export default Button
+export default ButtonGeneric

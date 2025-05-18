@@ -1,7 +1,7 @@
 'use client';
 
 
-import Button from "@/components/atoms/Button";
+import ButtonGeneric from "@/components/atoms/Button";
 import InputSeach from "@/components/molecules/InputSearch";
 import FilterContainer from "@/components/organism/FilterContainer";
 import ResponseContainer from "@/components/organism/ResponseContainer";
@@ -77,7 +77,7 @@ export default function Home() {
             </p>
             <div className="flex gap-3">
               <InputSeach callback={updateTags} />
-              <Button>
+              <ButtonGeneric>
             <button onClick={fetchData} disabled={loading}>
               {loading ? "Loading..." :
 
@@ -97,7 +97,7 @@ export default function Home() {
 
               }
             </button>
-          </Button>
+          </ButtonGeneric>
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@ const TagsContainer = ({tags, callback}: TagsContainerProps) => {
         <div className="bg-[#F0F0F0] rounded-xl p-2 flex gap-2">
             {
                 tags.length < 1 ? 
-                <p>When you add tags, they will be here...</p> :
+                <p className=" max-md:text-[10pt]">When you add tags, they will be here...</p> :
 
                 tags.map((item, _index)=>( <DeletablePill key={_index + item} text={item} callback={deleteTags} id={_index + item}/>))
             }

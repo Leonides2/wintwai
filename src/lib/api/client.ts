@@ -1,11 +1,14 @@
+
 import { OpenAIRequest } from "@/app/api/openAI/route";
 import { Item } from "../models/Item";
+import { Book } from "../models/Book";
 
 export interface OpenAIResponse {
     movies: Item[];
-    books: Item[];
+    books: Book[];
 }
 
+ var omdbapi = process.env.OMDB_KEY;
 
 export const getIAReponse = async (request: OpenAIRequest): Promise<OpenAIResponse> => {
     try {
@@ -36,3 +39,43 @@ export const getIAReponse = async (request: OpenAIRequest): Promise<OpenAIRespon
         throw error; // Re-lanzar el error para que el llamador lo maneje
     }
 };
+
+export const getMoviePoster = async (title: string): Promise<string> => {
+
+    try {
+        let response = await fetch (`http://www.omdbapi.com/?apikey=${omdbapi}&t=${title.toLowerCase()}`)
+
+        if(!response.ok){
+            throw new Error (`API error ${response.status} ${response.statusText}`)
+        }
+
+        const data =  await response.json();
+        console.log(data)
+
+        return data.Poster;
+
+    }
+    catch(error){
+        console.error("Error fetching data from API:", error);
+        throw error; // Re-lanzar el error para que el llamador lo maneje
+    }
+}
+
+export const getBookCover = async(isbn: number) => {
+
+    try{
+
+        let response = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=data&format=json`)
+        if(!response.ok){
+            throw new Error (`API error ${response.status} ${response.statusText}`)
+        }
+        const data =  await response.json();
+        let parseData = data[`ISBN:${isbn}`];
+
+        return parseData.cover.large;
+
+    }catch(error){
+        console.error("Error fetching data from API", error)
+        throw error;
+    }
+}

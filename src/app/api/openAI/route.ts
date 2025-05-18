@@ -29,6 +29,12 @@ export async function POST(req: Request) {
             model: "gpt-4.1",
             instructions: `
                 Generate a list of movies or books based on the given tags. You only need to return the list of movies or books.
+
+                [Important]
+                Don't add another text, just the list
+
+                Remenber open and close the JSON.
+
                 Return the list in JSON format with the following format:
                 {
                     "movies": [
@@ -36,16 +42,23 @@ export async function POST(req: Request) {
                         {...}
                     ],
                     "books": [
-                        { "title": "Book Title", "description": "Book Description", "release_year": 2023, "tags": ["tag1", "tag2", {...}], image: "https://bookcoverimage.com/image.*", link: "https://booklink.example.com" },
+                        { "title": "Book Title", "description": "Book Description", "release_year": 2023, "tags": ["tag1", "tag2", {...}], image: "https://bookcoverimage.com/image.*", link: "https://booklink.example.com", isbn:1234567890 },
                         {...}
                     ]
                 }
+                    
+                [Important]
                 where the array of movies and books can be empty. And the count of movies and books can be different.
-                between 0 and 10 movies and between 0 and 10 books. 
+                between 0 and 10 movies and between 0 and 10 books.
+
+                Return at least 3 books/movies if exists, and if possible, up to 10
+                
                 The movies and books should be related to the tags provided and the "tags" property in the json are the more near tags based in the provided tags in [tags].
                 
                 The image attribute, will be a movie or book cover (respecfully), you can get it from any web, just need to be the the cover.
                 The link attribute will be get by truthfully sources as "www.imdb.com", amazon and others.
+
+                The atribute isbn in books, is the isbn of the book
 
                 only return movies if in the input there is after [filter] tag the word "movie" or "film"
                 only return books if in the input there is after [filter] tag the word "book" or "novel"
@@ -54,6 +67,7 @@ export async function POST(req: Request) {
             `,
             input: `[tags] ${tags.join(", ")} [filter] ${filter}`,
             tools: [{ type: "web_search_preview" }],
+            temperature: 0
 
         });
 

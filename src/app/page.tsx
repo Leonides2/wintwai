@@ -1,7 +1,7 @@
 'use client';
 
 
-import ButtonGeneric from "@/components/atoms/Button";
+import ButtonGeneric from "@/components/atoms/ButtonGeneric";
 import InputSeach from "@/components/molecules/InputSearch";
 import FilterContainer from "@/components/organism/FilterContainer";
 import ResponseContainer from "@/components/organism/ResponseContainer";

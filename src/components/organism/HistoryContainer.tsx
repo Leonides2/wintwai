@@ -15,7 +15,7 @@ const HistoryContainer = ({ response }: ResponseContainerProps) => {
     <>
       {
         response.map((item) => {
-          let dateHistory = new Date(item.date)
+          const dateHistory = new Date(item.date)
           return (
             <>
               <h2>

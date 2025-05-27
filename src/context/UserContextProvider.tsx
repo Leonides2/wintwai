@@ -3,7 +3,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import { MovieBooksCollectionItem } from "@/lib/models/Movie";
-import { updateHistory } from "@/lib/api/client";
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
 

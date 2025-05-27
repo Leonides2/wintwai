@@ -38,7 +38,6 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
 
   useEffect(() => {
     fetchData();
-
   }, [url])
 
 

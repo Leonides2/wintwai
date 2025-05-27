@@ -17,14 +17,13 @@ const LoginForm = ({setLoginMode, setRegisterMode}: Props) => {
     const userData = useContext(UserContext)
 
     if(!userData){
-        return;
+        return null;
     }
 
      const fetchData = async ({email, password}:{email: string, password: string}) => {
     
         try {
           const res = await login({ email: email, password: password});
-          console.log(res)
 
           const parserRes =  res["user"]
           userData.setIsLogin(true);
@@ -47,7 +46,7 @@ const LoginForm = ({setLoginMode, setRegisterMode}: Props) => {
         password: string
     }> = (data) => {
         fetchData(data)
-        reset
+        reset()
     }
     return (
         <div className="flex flex-col items-center">
@@ -65,7 +64,7 @@ const LoginForm = ({setLoginMode, setRegisterMode}: Props) => {
                 />
                 <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">Login</button>
             </form>
-            <p className="mt-4">Don't have an account?
+            <p className="mt-4"> Don&apos;t have an account?
                 <span className="text-blue-500 cursor-pointer" onClick={() => { setLoginMode(false); setRegisterMode(true); }}> Register</span>
             </p>
         </div>

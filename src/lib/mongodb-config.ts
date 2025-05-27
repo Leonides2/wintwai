@@ -42,7 +42,7 @@ declare global {
 }
 
 // Conexión Mongoose (conexión con caché)
-let cached = global.mongoose || { conn: null, promise: null };
+const cached = global.mongoose || { conn: null, promise: null };
 
 async function connectWithMongoose() {
   if (cached.conn) return cached.conn;

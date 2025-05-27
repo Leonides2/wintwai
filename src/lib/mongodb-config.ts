@@ -36,6 +36,11 @@ function createMongoClient() {
   return new MongoClient(MONGODB_CONFIG.URI, MONGODB_CONFIG.mongoOptions);
 }
 
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: { conn: any, promise: any } | undefined;
+}
+
 // Conexión Mongoose (conexión con caché)
 let cached = global.mongoose || { conn: null, promise: null };
 
@@ -47,6 +52,7 @@ async function connectWithMongoose() {
   }
 
   cached.conn = await cached.promise;
+  global.mongoose = cached; // Guardar en global para evitar reconexiones innecesarias
   return cached.conn;
 }
 
@@ -60,8 +66,12 @@ async function testConnection() {
     await client.db("admin").command({ ping: 1 });
     console.log("✅ Conexión exitosa a MongoDB Atlas");
     return true;
-  } catch (error) {
-    console.error("❌ Error de conexión a MongoDB Atlas:", error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("❌ Error de conexión a MongoDB Atlas:", error.message);
+    } else {
+      console.error("❌ Error de conexión a MongoDB Atlas:", error);
+    }
     return false;
   } finally {
     await client.close();

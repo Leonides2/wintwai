@@ -1,4 +1,4 @@
-import { Item } from "@/lib/models/Item"
+import { Movie } from "@/lib/models/Movie"
 import Pill from "../atoms/Pill"
 import { useEffect, useState } from "react"
 import { getBookCover, getMoviePoster } from "@/lib/api/client"
@@ -6,7 +6,7 @@ import { Book } from "@/lib/models/Book";
 
 
 interface ItemCardProps {
-  item: Item | Book;
+  item: Movie | Book;
   type: "Movie" | "Book"
 }
 

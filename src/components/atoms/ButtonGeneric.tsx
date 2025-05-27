@@ -2,9 +2,10 @@ import { ReactNode } from "react"
 
 interface ButtonProps{
     children: ReactNode
+    callback?: () => void
 }
 
-const ButtonGeneric = ({children}: ButtonProps) => {
+const ButtonGeneric = ({children, callback= () => {}}: ButtonProps) => {
 
     return(
     <>
@@ -18,7 +19,9 @@ const ButtonGeneric = ({children}: ButtonProps) => {
         transition-colors
         duration-300
         cursor-pointer
-        ">
+        "
+        onClick={callback}
+        >
             {children}
         </div>
     </>

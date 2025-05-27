@@ -1,10 +1,10 @@
 
 import { OpenAIRequest } from "@/app/api/openAI/route";
-import { Item } from "../models/Item";
+import { Movie } from "../models/Movie";
 import { Book } from "../models/Book";
 
 export interface OpenAIResponse {
-    movies: Item[];
+    movies: Movie[];
     books: Book[];
 }
 
@@ -87,3 +87,54 @@ export const getBookCover = async(isbn: number) => {
         throw error;
     }
 }
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  nombre: string;
+  email: string;
+  password: string;
+}
+
+export const login = async (request: LoginRequest) => {
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Error en login');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error en login:', error);
+    throw error;
+  }
+};
+
+export const register = async (request: RegisterRequest) => {
+  try {
+    const response = await fetch('/api/usuarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Error en registro');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error en registro:', error);
+    throw error;
+  }
+};

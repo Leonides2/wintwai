@@ -4,6 +4,7 @@
 import ButtonGeneric from "@/components/atoms/ButtonGeneric";
 import InputSeach from "@/components/molecules/InputSearch";
 import FilterContainer from "@/components/organism/FilterContainer";
+import ProfileBundle from "@/components/organism/ProfileBundle";
 import ResponseContainer from "@/components/organism/ResponseContainer";
 import TagsContainer from "@/components/organism/TagsContainer";
 import { getIAReponse, OpenAIResponse } from "@/lib/api/client";
@@ -116,7 +117,7 @@ export default function Home() {
       <div id="response-container" className="flex flex-col items-start gap-y-6 w-full mb-24">
         <ResponseContainer key={"response_container"} response={response}/>
       </div>
-
-    </div>
+      <ProfileBundle/>
+      </div>
   );
 }

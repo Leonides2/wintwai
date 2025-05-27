@@ -1,6 +1,6 @@
 
 import { OpenAIRequest } from "@/app/api/openAI/route";
-import { Movie } from "../models/Movie";
+import { Movie, MovieBooksCollectionItem } from "../models/Movie";
 import { Book } from "../models/Book";
 
 export interface OpenAIResponse {
@@ -135,6 +135,46 @@ export const register = async (request: RegisterRequest) => {
     return await response.json();
   } catch (error) {
     console.error('Error en registro:', error);
+    throw error;
+  }
+};
+
+export const updateUser = async (request: RegisterRequest) => {
+  try {
+    const response = await fetch('/api/usuarios', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Error al actualizar usuario');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error al actualizar usuario:', error);
+    throw error;
+  }
+};
+
+export const updateHistory = async (email: string, history: MovieBooksCollectionItem[]) => {
+  try {
+    const response = await fetch('/api/history', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, history }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Error al actualizar historial');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error al actualizar historial:', error);
     throw error;
   }
 };

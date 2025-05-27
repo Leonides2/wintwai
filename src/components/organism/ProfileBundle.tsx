@@ -1,25 +1,26 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ButtonGeneric from "../atoms/ButtonGeneric";
 import LoginForm from "../forms/LoginForm";
+import { disableDialogs, enableDialogs } from "@/lib/dialogs";
+import RegisterForm from "../forms/RegisterForm";
+import { UserContext } from "@/context/UserContext";
 
 
 const ProfileBundle = () => {
     const [registerMode, setRegisterMode] = useState<boolean>(false)
     const [loginMode, setLoginMode] = useState<boolean>(true)
 
-
-
+    const userData = useContext(UserContext)
+    
+        if(!userData){
+            return;
+        }
 
     return (
         <>
             <div className="fixed top-0 right-0 size-16 bg-white border-1 p-2  m-3 
                 rounded-lg shadow-lg flex items-center justify-center"
-                onClick={() => {
-
-                    let dialog = document.querySelector('dialog');
-                    dialog?.setAttribute("style", "display: flex;");
-                    dialog?.showModal()
-                }
+                onClick={() => enableDialogs()
                 }
             >
                 <svg width="24px" height="24px" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000">
@@ -31,11 +32,7 @@ const ProfileBundle = () => {
             <dialog open={false} className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg
                 max-w-md w-full  flex-col gap-4">
 
-                <ButtonGeneric callback={() => {
-                    let dialog = document.querySelector('dialog');
-                    dialog?.setAttribute("style", "display: none;");
-                    dialog?.close()
-                }}>
+                <ButtonGeneric callback={() => disableDialogs()}>
                     <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000">
                         <path d="M6 18L18 6" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                         <path d="M6 6L18 18" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
@@ -43,22 +40,34 @@ const ProfileBundle = () => {
                 </ButtonGeneric>
                 
                 {
-                    loginMode ? (
-                        <LoginForm setLoginMode={setLoginMode} setRegisterMode={setRegisterMode}/>
-                    ) : registerMode ? (
-                        <div className="flex flex-col items-center">
-                            <h2 className="text-2xl font-bold mb-4">Register</h2>
-                            <form className="w-full max-w-sm">
-                                <input type="text" placeholder="Username" className="border p-2 mb-4 w-full" />
-                                <input type="email" placeholder="Email" className="border p-2 mb-4 w-full" />
-                                <input type="password" placeholder="Password" className="border p-2 mb-4 w-full" />
-                                <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">Register</button>
-                            </form>
-                            <p className="mt-4">Already have an account? 
-                                <span className="text-blue-500 cursor-pointer" onClick={() => { setLoginMode(true); setRegisterMode(false); }}> Login</span>
-                            </p>
+                    !userData.isLogin ?
+                        loginMode ? (
+                            <LoginForm setLoginMode={setLoginMode} setRegisterMode={setRegisterMode}/>
+                        ) : registerMode ? (
+                            <RegisterForm setLoginMode={setLoginMode} setRegisterMode={setRegisterMode}/>
+                        ) : null
+                    :
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="w-full p-2 bg-[#F0F0F0] rounded-lg">
+                            <h3>Username: </h3>
+                            <p>{userData.user.nombre}</p>
                         </div>
-                    ) : null
+                        <div className="w-full p-2 bg-[#F0F0F0] rounded-lg">
+                        <h3>Email: </h3>
+                        <p>{userData.user.email}</p>
+                        </div>
+                        <ButtonGeneric callback={() => {
+                            userData.setIsLogin(false);
+                            userData.setUser({
+                                email: "",
+                                history: [],
+                                nombre: ""
+                            })
+
+                        }}>
+                            Logout
+                        </ButtonGeneric>
+                    </div>
 
                 }
             </dialog>

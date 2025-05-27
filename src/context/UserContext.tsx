@@ -1,3 +1,5 @@
+'use client'
+
 import { MovieBooksCollectionItem } from "@/lib/models/Movie";
 import { createContext } from "react";
 

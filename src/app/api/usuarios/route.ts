@@ -13,7 +13,7 @@ export async function GET() {
 export async function POST(req: Request) {
   await connectToDatabase();
   const body = await req.json();
-  
+
   if (!body || !body.email || !body.password || !body.nombre) {
     return NextResponse.json({ error: 'Faltan datos requeridos' }, { status: 400 });
   }
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Datos inválidos' }, { status: 400 });
   }
 
-  if( body.password.length < 6) {
+  if (body.password.length < 6) {
     return NextResponse.json({ error: 'La contraseña debe tener al menos 6 caracteres' }, { status: 400 });
   }
 
@@ -34,5 +34,40 @@ export async function POST(req: Request) {
     password: hashedPassword,
   });
 
+  await Usuario.updateOne
+
   return NextResponse.json(nuevoUsuario, { status: 201 });
+}
+
+
+export async function PUT(req: Request) {
+  await connectToDatabase();
+  const body = await req.json();
+
+  if (!body || !body.email || !body.password || !body.nombre) {
+    return NextResponse.json({ error: 'Faltan datos requeridos' }, { status: 400 });
+  }
+
+  if (
+    typeof body.email !== 'string' ||
+    typeof body.password !== 'string' ||
+    typeof body.nombre !== 'string'
+  ) {
+    return NextResponse.json({ error: 'Datos inválidos' }, { status: 400 });
+  }
+
+  // Hashear la contraseña antes de actualizar
+  const hashedPassword = await bcrypt.hash(body.password, 10);
+
+  const usuarioActualizado = await Usuario.findOneAndUpdate(
+    { email: body.email },
+    { nombre: body.nombre, password: hashedPassword },
+    { new: true }
+  );
+
+  if (!usuarioActualizado) {
+    return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
+  }
+
+  return NextResponse.json(usuarioActualizado);
 }

@@ -2,6 +2,13 @@
 import mongoose, { Schema } from 'mongoose';
 import { MovieBooksCollectionItem } from './Movie';
 
+export type Usuario = {
+  nombre: string;
+  email: string;
+  password: string;
+  history: MovieBooksCollectionItem[];
+}
+
 export interface IUsuario extends Document {
   nombre: string;
   email: string;

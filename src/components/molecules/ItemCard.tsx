@@ -33,8 +33,7 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
     } catch (error) {
       console.error("Error fetching data:", error);
       //alert("Failed to fetch data. Please try again.");
-    } finally {
-    }
+    } 
   };
 
   useEffect(() => {
@@ -106,7 +105,6 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
               ))
             }
           </div>
-          <button onClick={() => fetchData()}>click me</button>
         </div>      
       </div>
     </>

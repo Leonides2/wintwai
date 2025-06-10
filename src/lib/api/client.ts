@@ -81,7 +81,22 @@ export const getBookCover = async(isbn: number) => {
         const data =  await response.json();
         const parseData = data[`ISBN:${isbn}`];
 
-        return parseData.cover.large;
+        if(!parseData.cover){ 
+          return undefined;
+        }
+        else{
+
+            if(parseData.cover.large){
+              return parseData.cover.large;
+            }
+            else if(parseData.cover.medium){
+              return parseData.cover.medium;
+            }
+            else if(parseData.cover.small){
+              return parseData.cover.small;
+            }
+        }
+        
 
     }catch(error){
         console.error("Error fetching data from API", error)

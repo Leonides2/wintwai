@@ -11,7 +11,7 @@ const inputRef = useRef<HTMLInputElement>(null);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === " ") {
-            let value = event.currentTarget.value.trim();
+            const value = event.currentTarget.value.trim();
             if (!value) return;
             if (tags.includes(value)) return;
 

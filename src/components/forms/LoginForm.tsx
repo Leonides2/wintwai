@@ -31,8 +31,8 @@ const LoginForm = ({setLoginMode, setRegisterMode}: Props) => {
             email: parserRes["email"],
             history: parserRes["history"],
             nombre: parserRes["nombre"]
-          }),
-          userData.setToken(res["token"])
+          });
+          userData.setToken(res["token"]);
           
         } catch (error) {
           console.error("Error fetching data:", error);

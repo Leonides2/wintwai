@@ -3,7 +3,7 @@ import { OpenAIRequest } from "@/app/api/openAI/route";
 import { Movie, MovieBooksCollectionItem } from "../models/Movie";
 import { Book } from "../models/Book";
 
-const token = localStorage.getItem("token");
+
 
 export interface OpenAIResponse {
     movies: Movie[];
@@ -177,6 +177,7 @@ export const updateUser = async (request: RegisterRequest) => {
 };
 
 export const updateHistory = async (email: string, history: MovieBooksCollectionItem[]) => {
+  const token = localStorage.getItem("token");
   try {
     const response = await fetch('/api/history', {
       method: 'PUT',

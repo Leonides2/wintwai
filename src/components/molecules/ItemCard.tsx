@@ -29,7 +29,7 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
         res = await getBookCover(item.isbn)
       }
 
-      setUrl(res ?? item.image);
+      setUrl(res ?? "https://picsum.photos/200/300");
     } catch (error) {
       console.error("Error fetching data:", error);
       //alert("Failed to fetch data. Please try again.");
@@ -53,6 +53,7 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
           <img
             src={url}
             alt={item.title}
+            onError={()=> {setUrl("https://placehold.co/270x360")}}
             className={`h-full w-full object-cover rounded-xl z-30 
              hover:opacity-60 cursor-pointer transition-all
               ${isCoverOn ? "absolute inset-0 duration-300" : 
@@ -66,14 +67,15 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
             <p>{item.title} ({item.release_year})</p>
             <div className="h-0.5 w-full bg-[var(--foreground)]" ></div>
             <p className="overflow-ellipsis">{item.description}</p>
-            <a href={item.link} target="_blank"
-              className="bg-fuchsia-100 size-fit"
-            >
+            <div className=" flex h-7 w-fit gap-x-1 **:stroke-blue-400 **:text-blue-400
+              items-center
+            ">
+            <a href={item.link} target="_blank">
               <svg width="24px" height="24px"
                 strokeWidth="1.5" viewBox="0 0 24 24"
                 fill="none" xmlns="http://www.w3.org/2000/svg"
                 color="#000000"
-                className="*:stroke-blue-400  hover:scale-150"
+                className="hover:scale-150"
               >
                 <path d="M14 11.9976C14 9.5059 11.683 7 8.85714 7C8.52241 7 7.41904 7.00001 7.14286 
                         7.00001C4.30254 7.00001 2 9.23752 2 11.9976C2 
@@ -96,6 +98,10 @@ const ItemCard = ({ item, type }: ItemCardProps) => {
                 </path>
               </svg>
             </a>
+            <p className="text-[10pt]">
+              Link
+            </p>
+            </div>
           </div>
           <div className="flex flex-wrap">
             {

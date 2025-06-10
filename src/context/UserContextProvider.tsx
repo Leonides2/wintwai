@@ -7,6 +7,7 @@ import { MovieBooksCollectionItem } from "@/lib/models/Movie";
 const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<{
 
     nombre: string,
@@ -21,11 +22,11 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
 
   useEffect(() => {
-    console.log(user)
-  },[user])
+    if(token != "") localStorage.setItem("token", token);
+  },[token])
 
   return (
-    <UserContext.Provider value={{ isLogin, setIsLogin, user, setUser }}>
+    <UserContext.Provider value={{ isLogin, setIsLogin, user, setUser, token, setToken }}>
       {children}
     </UserContext.Provider>
   );

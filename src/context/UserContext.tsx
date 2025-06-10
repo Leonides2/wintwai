@@ -12,6 +12,8 @@ interface UserContextProps {
         history: MovieBooksCollectionItem[]
     }
     setUser: (user: { nombre: string, email: string, history: MovieBooksCollectionItem[] }) => void;
+    token: string;
+    setToken: (token: string) => void
 }
 
 export const UserContext = createContext<UserContextProps | undefined>(undefined);

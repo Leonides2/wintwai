@@ -111,9 +111,8 @@ export default function Home() {
               If you want to add a space, use “-”
             </p>
             <div className="flex gap-3">
-              <InputSeach callback={updateTags} />
-              <ButtonGeneric>
-                <button onClick={fetchData} disabled={loading}>
+              <InputSeach callback={updateTags} tags={tags}/>
+              <ButtonGeneric callback={fetchData} disable={loading}>
                   {loading ? "Loading..." :
 
                     <svg width="20px" height="20px" viewBox="0 0 24 24"
@@ -131,7 +130,6 @@ export default function Home() {
                     </svg>
 
                   }
-                </button>
               </ButtonGeneric>
             </div>
           </div>
@@ -153,7 +151,7 @@ export default function Home() {
       </div>
       <ProfileBundle />
       {
-        userData.isLogin ?
+        userData.isLogin && userData.user.history ?
           userData.user.history.length > 0 ?
             <HistoryContainer key={"history_container"} response={userData.user.history} />
             : <h1> No data to display in your history</h1>

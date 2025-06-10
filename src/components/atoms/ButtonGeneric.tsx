@@ -3,9 +3,10 @@ import { ReactNode } from "react"
 interface ButtonProps{
     children: ReactNode
     callback?: () => void
+    disable?: boolean 
 }
 
-const ButtonGeneric = ({children, callback= () => {}}: ButtonProps) => {
+const ButtonGeneric = ({children, disable , callback= () => {}}: ButtonProps) => {
 
     return(
     <>
@@ -20,7 +21,7 @@ const ButtonGeneric = ({children, callback= () => {}}: ButtonProps) => {
         duration-300
         cursor-pointer
         "
-        onClick={callback}
+        onClick={disable ? () =>{} : callback}
         >
             {children}
         </div>

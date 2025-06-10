@@ -2,6 +2,9 @@ import Usuario from "@/lib/models/Usuario";
 import { connectWithMongoose } from "@/lib/mongodb-config";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+
+const SECRET = process.env.JWT_SECRET || "esteesunsecretogenericonisiquieraintentesusarloyaquenofuncionará";
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,10 +24,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Usuario o contraseña incorrectos" }, { status: 401 });
     }
 
-    //No enviar la contraseña en la respuesta
-    const { password: _, ...userWithoutPassword } = user as { password?: string; [key: string]: any };
+    // No enviar la contraseña en la respuesta
+    const { password: _, username, nombre, history, ...rest } = user as { password?: string; username?: string; nombre?: string; history?: any; [key: string]: any };
+    const userWithoutPassword = { email, username, nombre, history, ...rest };
 
-    return NextResponse.json({ user: userWithoutPassword });
+    const token = jwt.sign({ email, username }, SECRET, { expiresIn: "24h" });
+    return NextResponse.json({ token, user: userWithoutPassword });
   } catch (error) {
     return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
   }

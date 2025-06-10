@@ -3,6 +3,8 @@ import { OpenAIRequest } from "@/app/api/openAI/route";
 import { Movie, MovieBooksCollectionItem } from "../models/Movie";
 import { Book } from "../models/Book";
 
+const token = localStorage.getItem("token");
+
 export interface OpenAIResponse {
     movies: Movie[];
     books: Book[];
@@ -58,7 +60,6 @@ export const getMoviePoster = async (request: ImageMoviesRequest): Promise<strin
         }
 
         const data =  await response.json();
-        console.log(data)
 
         return data.poster;
 
@@ -112,6 +113,7 @@ export const login = async (request: LoginRequest) => {
       throw new Error(error.error || 'Error en login');
     }
 
+
     return await response.json();
   } catch (error) {
     console.error('Error en login:', error);
@@ -163,7 +165,10 @@ export const updateHistory = async (email: string, history: MovieBooksCollection
   try {
     const response = await fetch('/api/history', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json' ,
+        'Authorization' : `Bearer ${token}` ,
+      },
       body: JSON.stringify({ email, history }),
     });
 

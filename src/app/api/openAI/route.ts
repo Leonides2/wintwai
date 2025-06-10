@@ -1,5 +1,16 @@
 import OpenAI from "openai";
 
+function extractFirstJsonBlock(text: string): any | null {
+    // Busca el primer bloque {...} que parece un JSON
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) return null;
+    try {
+        return JSON.parse(match[0]);
+    } catch (e) {
+        return null;
+    }
+}
+
 export interface OpenAIRequest {
     tags: string[];
     filter: string;
@@ -72,15 +83,18 @@ export async function POST(req: Request) {
 
         });
 
-        // Extraer y validar la respuesta
-        const output = response.output_text;
+         const output = response.output_text;
         if (!output) {
             throw new Error("No output from OpenAI.");
         }
 
-        const parsedOutput = output.replace(`json`, "").replaceAll(`\`\`\``, "");
+        // Extraer y parsear el primer bloque JSON válido
+        const jsonData = extractFirstJsonBlock(output.replace(/```json|```/g, ""));
+        if (!jsonData) {
+            return new Response(JSON.stringify({ error: "No se pudo extraer un JSON válido de la respuesta de OpenAI." }), { status: 500 });
+        }
 
-        return new Response(parsedOutput, {
+        return new Response(JSON.stringify(jsonData), {
             status: 200,
             headers: { "Content-Type": "application/json" },
         });

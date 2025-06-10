@@ -80,6 +80,7 @@ export default function Home() {
   }
 
 
+  const sortedHistory = [...userData.user.history].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 
   return (
@@ -151,9 +152,9 @@ export default function Home() {
       </div>
       <ProfileBundle />
       {
-        userData.isLogin && userData.user.history ?
-          userData.user.history.length > 0 ?
-            <HistoryContainer key={"history_container"} response={userData.user.history} />
+        userData.isLogin && sortedHistory ?
+          sortedHistory.length > 0 ?
+            <HistoryContainer key={"history_container"} response={sortedHistory} />
             : <h1> No data to display in your history</h1>
           :
           <h1> Login to access to your history... </h1>

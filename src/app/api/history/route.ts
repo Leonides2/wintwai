@@ -23,7 +23,10 @@ export async function PUT(req: Request) {
   if (!email) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-  const { history } = await req.json();
+  let { history } = await req.json();
+
+   history = history.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   // Actualizar el atributo history del usuario
   const usuarioActualizado = await Usuario.findOneAndUpdate(
     { email: email },

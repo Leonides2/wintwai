@@ -12,7 +12,7 @@ const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSea
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === " ") {
-            let value = event.currentTarget.value.trim();
+            const value = event.currentTarget.value.trim();
             if (!value) return;
             if (tags.includes(value)) return;
 
@@ -31,7 +31,7 @@ const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSea
     const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
 
         if (event.target.value.includes(" ")) {
-            let value = event.currentTarget.value.trim();
+            const value = event.currentTarget.value.trim();
             if (!value) return;
             if (tags.includes(value)) return;
 
@@ -40,7 +40,7 @@ const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSea
             }else{
                  callback(value);
             }
-            
+
             event.preventDefault(); // Evita que se agregue el espacio al input
             if (inputRef.current) inputRef.current.value = "";
         }

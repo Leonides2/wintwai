@@ -19,7 +19,7 @@ const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSea
             if(value.includes("-")){
                 callback(value.replace("-", " "))
             }else{
-                 callback(value);
+                callback(value);
             }
 
            

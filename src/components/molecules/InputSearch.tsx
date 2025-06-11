@@ -8,7 +8,7 @@ interface InputSeachProps {
 
 const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSeachProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    //const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 
     const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {

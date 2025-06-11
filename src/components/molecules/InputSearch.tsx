@@ -10,27 +10,10 @@ const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSea
     const inputRef = useRef<HTMLInputElement>(null);
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === " ") {
-            const value = event.currentTarget.value.trim();
-            if (!value) return;
-            if (tags.includes(value)) return;
-
-            if(value.includes("-")){
-                callback(value.replace("-", " "))
-            }else{
-                callback(value);
-            }
-
-           
-            event.preventDefault(); // Evita que se agregue el espacio al input
-            if (inputRef.current) inputRef.current.value = "";
-        }
-    };
 
     const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-        if (event.target.value.includes(" ")) {
+        const rawValue = event.target.value;
+        if (rawValue.includes(" ") && rawValue.trim().length > 0) {
             const value = event.currentTarget.value.trim();
             if (!value) return;
             if (tags.includes(value)) return;
@@ -52,8 +35,7 @@ const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSea
             <input type="text"
                 ref={inputRef}
                 maxLength={64}
-                onKeyDown={!isMobile ? handleKeyDown : () => console.log("Soy un movil")}
-                onChange={isMobile ? handleValue : () => console.log("No soy un movil")}
+                onChange={handleValue}
                 placeholder="Type tags to search..."
                 className="bg-[#F0F0F0] rounded-xl px-2.5 py-2 focus:outline-[#b9b9b9] w-full">
             </input>

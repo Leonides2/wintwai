@@ -6,32 +6,58 @@ interface InputSeachProps {
     tags: string[]
 }
 
-const InputSeach = ({ tags, callback= (event) => console.log(event)}: InputSeachProps) => {
-const inputRef = useRef<HTMLInputElement>(null);
+const InputSeach = ({ tags, callback = (event) => console.log(event) }: InputSeachProps) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === " ") {
-            const value = event.currentTarget.value.trim();
+            let value = event.currentTarget.value.trim();
             if (!value) return;
             if (tags.includes(value)) return;
 
-            callback(value);
+            if(value.includes("-")){
+                callback(value.replace("-", " "))
+            }else{
+                 callback(value);
+            }
+
+           
             event.preventDefault(); // Evita que se agregue el espacio al input
             if (inputRef.current) inputRef.current.value = "";
         }
     };
-        
 
-    return(
-    <>
-        <input type="text" 
-        ref={inputRef}
-        maxLength={64} 
-        onKeyDown={handleKeyDown}
-        placeholder="Type tags to search..."
-        className="bg-[#F0F0F0] rounded-xl px-2.5 py-2 focus:outline-[#b9b9b9] w-full">
-        </input>
-    </>
+    const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        if (event.target.value.includes(" ")) {
+            let value = event.currentTarget.value.trim();
+            if (!value) return;
+            if (tags.includes(value)) return;
+
+             if(value.includes("-")){
+                callback(value.replace("-", " "))
+            }else{
+                 callback(value);
+            }
+            
+            event.preventDefault(); // Evita que se agregue el espacio al input
+            if (inputRef.current) inputRef.current.value = "";
+        }
+    };
+
+
+    return (
+        <>
+            <input type="text"
+                ref={inputRef}
+                maxLength={64}
+                onKeyDown={!isMobile ? handleKeyDown : () => console.log("Soy un movil")}
+                onChange={isMobile ? handleValue : () => console.log("No soy un movil")}
+                placeholder="Type tags to search..."
+                className="bg-[#F0F0F0] rounded-xl px-2.5 py-2 focus:outline-[#b9b9b9] w-full">
+            </input>
+        </>
     )
 }
 
